@@ -24,11 +24,11 @@ read -s -p "Enter the password for the new user: " new_password
 echo
 read -s -p "Confirm password: " confirm_password
 echo
-if [ "$new_password" != "$confirm_password" ]; then
+while [ "$new_password" != "$confirm_password" ]
+do
     echo "Passwords do not match. Please try again."
-else
-    break
-fi
+    read  -s -p "Confirm password: " confirm_password
+done
 useradd -m -s /bin/bash "$new_username"
 echo "$new_username:$new_password" | chpasswd
 usermod -aG sudo "$new_username"
