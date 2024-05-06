@@ -14,7 +14,7 @@ echo "First, we will run updates and install sudo."
 log "Running updates and installing sudo."
 
 # Update package repository and install sudo and create a new user
-apt install sudo -y
+apt update && apt install sudo -y
 printf '\nSudo installed successfully\n\n'
 log "Sudo installed."
 
@@ -24,6 +24,7 @@ read -s -p "Enter the password for the new user: " new_password
 echo
 read -s -p "Confirm password: " confirm_password
 echo
+# Check to see if passwords match
 while [ "$new_password" != "$confirm_password" ]
 do
     echo "Passwords do not match. Please try again."
@@ -38,8 +39,7 @@ echo "You can now log in with the username $new_username instead of root"
 
 
 # Update package repository and install curl and ca-certificates
-apt-get update
-apt-get install ca-certificates curl -y
+apt-get update && apt-get install ca-certificates curl -y
 printf '\nCa-certificates and Curl installed successfully\n\n'
 log "Updates completed. Curl installed."
 
@@ -55,8 +55,7 @@ printf '\nDocker repository setup\n\n'
 log "Docker repository setup."  
 
 # Update package repository and install
-apt-get update
-apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+apt-get update && apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 printf '\nDocker and Docker Compose setup\n\n'
 log "Docker and Docker Compose has been installed."
 
