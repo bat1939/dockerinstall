@@ -59,7 +59,23 @@ log "Running updates and installing sudo."
 apt install sudo -y
 printf '\nSudo installed successfully\n\n'
 log "Sudo installed."
-create_new_user;;  # Prompt to create a new user after installing sudo
+
+# Create a New User
+read -p "Enter the username for the new user: " new_username
+read -s -p "Enter the password for the new user: " new_password
+echo
+read -s -p "Confirm password: " confirm_password
+echo
+if [ "$new_password" != "$confirm_password" ]; then
+    echo "Passwords do not match. Please try again."
+else
+    break
+fi
+useradd -m -s /bin/bash "$new_username"
+echo "$new_username:$new_password" | chpasswd
+usermod -aG sudo "$new_username"
+printf '\nNew user created and added to sudoers group\n\n'
+echo "You can now log in with the username $new_username instead of root";;
 
 
 # Update package repository and install curl and ca-certificates
