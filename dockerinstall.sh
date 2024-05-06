@@ -27,6 +27,7 @@ echo
 while [ "$new_password" != "$confirm_password" ]
 do
     echo "Passwords do not match. Please try again."
+    read -s -p "Enter the password for the new user: " new_password
     read  -s -p "Confirm password: " confirm_password
 done
 useradd -m -s /bin/bash "$new_username"
