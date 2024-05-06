@@ -2,48 +2,6 @@
 
 set -e
 
-# Function to prompt the user with a checkbox
-prompt_checkbox() {
-    options=("$@")
-    selected=()
-    for (( i=0; i<${#options[@]}; i++ )); do
-        read -p "Install ${options[$i]}? (yes/no): " yn
-        case $yn in
-            [Yy]* ) selected+=("${options[$i]}");;
-            * ) ;;
-        esac
-    done
-    echo "${selected[@]}"
-}
-
-# Function to prompt the user to create a new user
-create_new_user() {
-    read -p "Do you want to create an additional user with sudo privileges? (yes/no): " create_user
-    case $create_user in
-        [Yy]* )
-            read -p "Enter the username for the new user: " new_username
-            while true; do
-                read -s -p "Enter the password for the new user: " new_password
-                echo
-                read -s -p "Confirm password: " confirm_password
-                echo
-                if [ "$new_password" != "$confirm_password" ]; then
-                    echo "Passwords do not match. Please try again."
-                else
-                    break
-                fi
-            done
-            useradd -m -s /bin/bash "$new_username"
-            echo "$new_username:$new_password" | chpasswd
-            usermod -aG sudo "$new_username"
-            printf '\nNew user created and added to sudoers group\n\n'
-            echo "You can now log in with the username $new_username instead of root";;
-        * )
-            echo "Skipping user creation."
-            ;;
-    esac
-}
-
 sleep 10
 
 # Function for logging
